@@ -12,7 +12,6 @@ def ask_gpt(question)
   prompt = "シェルコマンド: #{question}\n回答:"
   $MESSAGES << { role: 'user', content: question }
 
-  puts $MESSAGES
   response = client.chat(
     parameters: {
       model: 'gpt-3.5-turbo',
