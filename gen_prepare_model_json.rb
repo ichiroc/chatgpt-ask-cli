@@ -13,7 +13,7 @@ File.open(ARGV[0]){ |f|
     if /\A--/.match?(line)
       if !answers.empty?
         qas << {
-          "prompt": question.strip,
+          "prompt": question.gsub(/\A--/, '').strip,
           "completion": answers.map(&:strip).select { |s| !s.empty? }.join("\n"),
         }
         answers = []
