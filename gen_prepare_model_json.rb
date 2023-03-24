@@ -1,7 +1,12 @@
 require 'json'
 
+unless File.exists?(ARGV[0])
+  puts 'file not found.'
+  exit(1)
+end
+
 qas = []
-File.open("kuranuki_journal1.txt"){ |f|
+File.open(ARGV[0]){ |f|
   question = ''
   answers = []
   f.each_line{ |line|
@@ -21,3 +26,4 @@ File.open("kuranuki_journal1.txt"){ |f|
 }
 
 puts JSON.pretty_generate(qas)
+exit(0)
