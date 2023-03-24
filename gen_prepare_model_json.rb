@@ -25,5 +25,6 @@ File.open(ARGV[0]){ |f|
   }
 }
 
-puts JSON.pretty_generate(qas)
+# puts JSON.pretty_generate(qas)
+puts qas.to_json
 exit(0)
