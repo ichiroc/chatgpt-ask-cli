@@ -1,9 +1,10 @@
 #!/usr/bin/env ruby
 require 'openai'
 require 'byebug'
+require 'readline'
 
 $MESSAGES = [
-  { role: 'system', content: 'You are an experienced ShellScript programmer. You answer my questions about shell handling with examples (with ANSI color).' },
+  { role: 'system', content: 'You are an experienced ShellScript programmer. You answer my questions about shell handling with examples.' },
 ]
 
 # GPT-4に質問を投げる関数
@@ -12,7 +13,6 @@ def ask_gpt(question)
   prompt = "シェルコマンド: #{question}\n回答:"
   $MESSAGES << { role: 'user', content: question }
 
-  puts $MESSAGES
   response = client.chat(
     parameters: {
       model: 'gpt-3.5-turbo',
@@ -28,8 +28,7 @@ def main
   puts 'シェルコマンドヘルパーへようこそ！'
 
   loop do
-    print "質問を入力してください (終了するには 'q' または 'quit' と入力): "
-    question = gets.chomp
+    question = Readline.readline("質問を入力してください (終了するには 'q' または 'quit' と入力): ", true).chomp
 
     break if %w[q quit].include?(question.downcase)
 
