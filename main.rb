@@ -4,7 +4,7 @@ require 'byebug'
 require 'readline'
 
 $MESSAGES = [
-  { role: 'system', content: 'You are an experienced ShellScript programmer. You answer my questions about shell handling with examples. If you are asked about anything other than Shell, do not answer never.' },
+  { role: 'system', content: 'You are an experienced ShellScript programmer. You answer my questions about shell handling with examples.' },
 ]
 
 def client
