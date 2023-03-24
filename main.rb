@@ -4,13 +4,14 @@ require 'byebug'
 require 'readline'
 
 $MESSAGES = [
-  { role: 'system', content: 'You are an experienced ShellScript programmer. You answer my questions about shell handling with examples.' },
+  { role: 'system', content: 'You are an experienced ShellScript programmer. You answer my questions about shell handling with examples. If you are asked about anything other than Shell, do not answer never.' },
 ]
 
-# GPT-4に質問を投げる関数
+def client
+  @client ||= OpenAI::Client.new(access_token: ENV['OPENAI_API_KEY'])
+end
+
 def ask_gpt(question)
-  client = OpenAI::Client.new(access_token: ENV['API_KEY'])
-  prompt = "シェルコマンド: #{question}\n回答:"
   $MESSAGES << { role: 'user', content: question }
 
   response = client.chat(
@@ -25,20 +26,20 @@ def ask_gpt(question)
 end
 
 def main
-  puts 'シェルコマンドヘルパーへようこそ！'
-
   loop do
-    question = Readline.readline("質問を入力してください (終了するには 'q' または 'quit' と入力): ", true).chomp
+    question = Readline.readline('Ask anything you want. ( q to exit): ', true).chomp
 
     break if %w[q quit].include?(question.downcase)
 
+    puts ''
+    puts "Q. #{question}"
     answer = ask_gpt(question)
+    puts ''
+    puts "A. #{answer}"
     puts '-------------------------------------------------'
-    puts "質問: #{question}"
-    puts "回答: #{answer}\n\n"
+    puts ''
+    puts 'Resolved? If not, keep asking.'
   end
-
-  puts 'プログラムを終了します。'
 end
 
 main
